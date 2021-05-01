@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: aliceblue;
+}
+*{
+    box-sizing: border-box;
+}
+.pink {
+    background-color: lightpink;
+}
+.blue {
+    background-color: rgb(123, 203, 230);
+}
+.green {
+    background-color: lightgreen;
+}
+
+.black {
+    background-color: rgb(14, 13, 13);
+}
+.filter-container {
+    height: 70%;
+    background-color: darkgray;
+    width: 20rem;
+    border-radius: 3px;
+    /* center of toolbar */
+    margin: 0 auto;
+}
+
+.filter {
+    margin-top: 3px;
+    height: 90%;
+    width: 22%;
+}
+.toolbar {
+    background-color: #2f3640;
+    height: 12vh;
+    padding-top: 10px;
+}
+
+.main-container {
+    min-height: 88vh;
+}
