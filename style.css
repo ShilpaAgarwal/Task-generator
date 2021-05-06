@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: aliceblue;
-    font-family: R;
+    font-family: 'Itim', cursive;
 }
 *{
     box-sizing: border-box;
@@ -86,6 +86,7 @@ body {
 .ticket-container {
     height: 30%;
     width: 26%;
+    margin-top: 10px;
 }
 .ticket-color {
     height: 7%;
@@ -100,9 +101,52 @@ body {
 .ticket-id {
     margin-bottom: 11px;
     font-weight: 800;
+    font-size: 1.3rem;
     color: lightslategray;
 }
 .ticket-des {
     text-align: center;
     font-size: 1.2rem;
+}
+.pop-up {
+    position: absolute;
+    background-color: white;
+    height: 55%;
+    width: 40%;
+    display: none;
+    box-shadow: 0 1rem 5rem rgba(14, 13, 13, 0.61);
+}
+.pop-up-des {
+    height: 100%;
+    width: 70%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pop-up-input {
+    height: 100%;
+    width: 100%;
+    padding: 2rem;
+}
+.pop-up-color-container {
+    height: 100%;
+    width: 30%;
+    background-color: rgb(41, 41, 49);
+    padding-bottom: 8%;
+    padding-top: 8%;
+}
+.pop-up-color {
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.color {
+    height: 50%;
+    width: 60%;
+    border-radius: 2px;
+}
+.border {
+    border: 5px solid black;
 }
