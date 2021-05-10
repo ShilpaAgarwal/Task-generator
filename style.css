@@ -23,12 +23,10 @@ body {
 .filter-container {
     height: 70%;
     background-color: darkgray;
-    width: 20rem;
-    border-radius: 3px;
+    width: 40%;
+    border-radius: 3%;
     /* center of toolbar */
     /* margin: 0 auto; */
-    margin-right: 12rem;
-    margin-left: 12rem;
     display: flex;
 }
 
@@ -42,11 +40,12 @@ body {
     display: flex;
     height: 12vh;
     align-items: center;
+    justify-content: space-around;
 }
 .action-container {
     height: 70%;
     background-color: darkgray;
-    width: 7rem;
+    width: 20%;
     border-radius: 3px;
     display: flex;
 }
@@ -79,7 +78,7 @@ body {
     align-items: center;
 }
 .filter-color {
-    height: 40%;
+    height: 60%;
     width: 40%;
     border-radius: 4px;
 }
@@ -149,4 +148,10 @@ body {
 }
 .border {
     border: 5px solid black;
+}
+
+@media only screen and (min-width: 1800px) {
+    html {
+        font-size: 300%;
+    }
 }
