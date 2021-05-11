@@ -1,15 +1,20 @@
+'use strict';
 let filterColor = document.querySelectorAll(".filter-color");
 let mainContainer = document.querySelector(".main-container");
 let body = document.querySelector("body");
 let popUp = document.querySelector(".pop-up");
 let plusBtn = document.querySelector(".plus");
+let crossBtn = document.querySelector(".cross");
 let popInp = document.querySelector(".pop-up-input");
 let popColor = document.querySelectorAll(".color");
 let ticketId = document.querySelectorAll(".ticket-id");
+let lock = document.querySelector(".lock");
 let filterContainers = document.querySelectorAll(".filter-color-container");
 let colorIn = "black";
 let colorArr = ["pink", "blue", "green", "black"];
 let allTasks = [];
+let flagToLock = false;
+let flagToDelete = false;
 
 if (localStorage.getItem("allTasks")) {
     let strArr = localStorage.getItem("allTasks");
@@ -32,18 +37,9 @@ function createTicketFromLocal(taskObj) {
 
     mainContainer.appendChild(ticket);
 
-    addFunctionality(ticket);
+    ticketColorChange(ticket);
+    deleteTicket(ticket);
 }
-
-// for (let i = 0; i < filterColor.length; i++) {
-//     filterColor[i].addEventListener("click", function () {
-//         let classes = filterColor[i].getAttribute("class");
-//         let classArr = classes.split(" ");
-//         let color = classArr[1];
-
-//         body.setAttribute("class", color);
-//     });
-// }
 
 plusBtn.addEventListener("click", function () {
     popUp.style.display = "flex";
@@ -74,9 +70,42 @@ popInp.addEventListener("keydown", function (e) {
         popInp.value = "";
         mainContainer.appendChild(ticket);
 
-        addFunctionality(ticket);
+        ticketColorChange(ticket);
+        deleteTicket(ticket);
     }
 });
+
+// if the cross button is clicked, and then a ticket, delete the ticket
+crossBtn.addEventListener("click", function () {
+    if(flagToDelete == false) 
+        crossBtn.style.backgroundColor = "rgb(102, 100, 100)";
+    else
+        crossBtn.style.backgroundColor = "darkgray";
+    
+    flagToDelete = !flagToDelete;
+})
+
+function deleteTicket(ticket) {
+    ticket.addEventListener("click", function () {
+        if(flagToDelete == true) {
+            let id = ticket.children[1].children[0].textContent.slice(1);
+
+            for(let i=0; i<allTasks.length; i++) {
+                if(allTasks[i].id == id) {
+                    allTasks.splice(i, 1);
+                    console.log(allTasks);
+                    break;
+                }
+            }
+            let strArr = JSON.stringify(allTasks);
+            localStorage.setItem("allTasks", strArr);
+            // let index = allTasks.indexOf(ticketObj);
+            // console.log(index);
+            ticket.remove();
+        }
+            
+    })
+}
 
 //if a color is selected in + pop up, then selecting that color
 for (let i = 0; i < popColor.length; i++) {
@@ -94,7 +123,7 @@ for (let i = 0; i < popColor.length; i++) {
 
 //if we click on the colored line of ticket, then 
 // it changes  color
-function addFunctionality(ticket) {
+function ticketColorChange(ticket) {
     let ticketColor = ticket.querySelector(".ticket-color");
     ticketColor.addEventListener("click", function () {
         let cColor = ticketColor.classList[1];
@@ -110,10 +139,12 @@ function addFunctionality(ticket) {
         ticketId = ticketId.slice(1);
 
         for(let i=0; i<allTasks.length; i++) {
-            if(allTasks.id == ticketId) {
-                allTasks[i].color = colorArr[newIndex];
+            if(allTasks[i].id == ticketId) {
+                allTasks[i].col = colorArr[newIndex];
                 let strArr = JSON.stringify(allTasks);
                 localStorage.setItem("allTasks", strArr);
+                console.log(allTasks);
+                break;
             }
         }
     });
@@ -144,4 +175,39 @@ for (let i = 0; i < filterContainers.length; i++) {
     });
 }
 
+//unlock and lock editing
+lock.addEventListener("click", function () {
+    // if its locked, unlock it
+    let ticketDes = document.querySelectorAll(".ticket-des")
+    if(flagToLock == false){
+        lock.children[0].remove();
+        lock.innerHTML = `<i class="fas fa-lock-open icon"></i>`;
+        flagToLock = true;
 
+        //make the content of ticket editable
+        for(let i=0; i<ticketDes.length; i++)
+            ticketDes[i].setAttribute("contenteditable", "true");            
+    }
+    else {
+        lock.children[0].remove();
+        lock.innerHTML = `<i class="fas fa-lock icon"></i>`;
+        flagToLock = false;
+        allTasks = [];
+
+        for(let i=0; i<ticketDes.length; i++) {
+            //make the content of ticket non-editable
+            ticketDes[i].setAttribute("contenteditable", "false");  
+            
+            //store current info in localStorage
+            let ticket = ticketDes[i].parentNode.parentNode;
+            let ticketObj = {};
+            ticketObj.tas = ticket.children[1].children[1].textContent;
+            ticketObj.col = ticket.children[0].classList[1];
+            ticketObj.id = ticket.children[1].children[0].textContent.slice(1);
+            
+            allTasks.push(ticketObj);
+        }
+        let strArr = JSON.stringify(allTasks);
+        localStorage.setItem("allTasks", strArr);
+    }
+})
